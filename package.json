@@ -1,0 +1,16 @@
+{
+  "name": "mernproject",
+  "version": "1.0.0",
+  "description": "I have Started full flash project based on mern by thapa",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Hammad",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.2",
+    "mongoose": "^6.1.8",
+    "nodemon": "^2.0.15"
+  }
+}
