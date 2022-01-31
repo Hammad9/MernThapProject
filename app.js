@@ -1,4 +1,18 @@
 const express=require('express');
+const mongoose=require('mongoose');
+
+// Link Which copy from atlas
+
+const DB="mongodb+srv://Hammad:hammad123@cluster0.1jjnq.mongodb.net/mernstack?retryWrites=true&w=majority";
+
+mongoose.connect(DB,{
+    useNewUrlParser:true,
+    useCreateIndex:true,
+    useUnifiedTopology:true,
+    useFindAndModify:false,
+}).then(()=>{
+    console.log("Connection SuccessFully Created");
+}).catch((err)=>console.log("No Connection "))
 
 const app=express();
 
