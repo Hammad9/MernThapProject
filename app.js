@@ -2,11 +2,24 @@ const express=require('express');
 
 const app=express();
 
+
+// Middle Ware Define
+const middleware=(req,res,next)=>{
+    console.log("You Are in Middle Ware")
+
+    // Is say wo next move kar jae ga
+    next()
+}
+
+// Call Middleware
+// middleware()
+
 app.get('/',(req,res)=>{
     res.send("Hello World This is Send by Hammad");
 })
 
-app.get('/about',(req,res)=>{
+app.get('/about',middleware,(req,res)=>{
+    console.log("You are in about Page")
     res.send("This is About Page");
 })
 
