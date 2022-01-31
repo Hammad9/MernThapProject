@@ -9,7 +9,11 @@ dotenv.config({ path: './config.env' })
 // const DB = process.env.DATABASE;
 const PORT = process.env.PORT;
 
+
 require('./db/conn.js')
+
+// User Schema Access
+// const User=require('./model/userSchema')  
 
 const app = express();
 
