@@ -78,6 +78,33 @@ router.post('/register', async (req, res) => {
 
 }
 
+
+
 )
+
+// For Login Data
+router.post('/signin',(req,res)=>{
+    // console.log(req.body),
+    // res.json({message:"Awoesome"})
+    try{
+        const {email,password}=req.body;
+        if(!email || !password){
+            return res.status("Please Filled the data")
+        }
+       const userlogin= User.findOne({email:email});
+
+       console.log(userlogin)
+       if(!userlogin){
+           res.json({error:"User Error"})
+       }
+       else{
+           res.json({message:"User Signin Succefully "})
+       }
+
+    }
+    catch(err){
+        console.log(err);
+    }
+})
 
 module.exports = router;

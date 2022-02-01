@@ -20,11 +20,11 @@ const userSchema = mongoose.Schema({
        required: true, 
     },
     password:{
-        type:Number,
+        type:String,
         required: true,
     },
     cpassword:{
-        type:Number,
+        type:String,
         required: true,
     }
 })
