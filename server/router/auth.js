@@ -83,26 +83,28 @@ router.post('/register', async (req, res) => {
 )
 
 // For Login Data
-router.post('/signin',(req,res)=>{
+router.post('/signin',async (req, res) => {
     // console.log(req.body),
     // res.json({message:"Awoesome"})
-    try{
-        const {email,password}=req.body;
-        if(!email || !password){
-            return res.status("Please Filled the data")
+    try {
+        const { email, password } = req.body;
+        if (!email || !password) {
+            return res.status(400).json({ message: "Please Filled the data" })
         }
-       const userlogin= User.findOne({email:email});
+        // find karo jo user nay email de or database ke 
+        // yeah user.find promise return karta hai so we fullfill
+        const userlogin = await User.findOne({ email: email });
 
-       console.log(userlogin)
-       if(!userlogin){
-           res.json({error:"User Error"})
-       }
-       else{
-           res.json({message:"User Signin Succefully "})
-       }
+        console.log(userlogin)
+        if (!userlogin) {
+            res.json({ error: "User Error" })
+        }
+        else {
+            res.json({ message: "User Signin Succefully " })
+        }
 
     }
-    catch(err){
+    catch (err) {
         console.log(err);
     }
 })
