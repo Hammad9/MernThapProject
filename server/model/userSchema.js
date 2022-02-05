@@ -34,9 +34,9 @@ const userSchema = mongoose.Schema({
 
 
 userSchema.pre('save', async function (next) {
+    console.log("Hi from inside");
     // is ka matlab kon say perticualr may chaning kay bad ham nay isko save say pehlay call karwana hai 
     
-    console.log("Hi from inside")
     if (this.isModified('password')) {
         // this.password is above jo password define kiya hai equal to .hash(this.password,12) 12 mean algo 
         this.password = await bcrypt.hash(this.password, 12);

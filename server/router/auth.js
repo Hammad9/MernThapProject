@@ -1,4 +1,5 @@
 const express = require('express');
+const bcrypt = require('bcryptjs');
 
 require('../db/conn');
 
@@ -65,14 +66,14 @@ router.post('/register', async (req, res) => {
         if (userExit) {
             return res.status(422).json({ error: "Email Is Not Matched" })
         }
-        else if(password != cpassword){
+        else if (password != cpassword) {
             return res.status(422).json({ error: "Password Is Not Matched" })
 
         }
-        else{
+        else {
 
             const user = new User({ name, email, phone, work, password, cpassword })
-    
+
             await user.save()
             res.status(201).json({ message: "User Register Succefully" })
         }
@@ -90,7 +91,7 @@ router.post('/register', async (req, res) => {
 )
 
 // For Login Data
-router.post('/signin',async (req, res) => {
+router.post('/signin', async (req, res) => {
     // console.log(req.body),
     // res.json({message:"Awoesome"})
     try {
@@ -102,13 +103,25 @@ router.post('/signin',async (req, res) => {
         // yeah user.find promise return karta hai so we fullfill
         const userlogin = await User.findOne({ email: email });
 
-        console.log(userlogin)
-        if (!userlogin) {
-            res.json({ error: "User Error" })
+        // Here is the code of Check HashPassword and email Login
+        
+        
+        // console.log(isMatch)
+        if (userlogin) {
+            const isMatch = await bcrypt.compare(password, userlogin.password);
+            // Here Check the password
+            if (!isMatch) {
+                res.json({ error: "User Credientials" })
+            }
+            else {
+                res.json({ message: "User Signin Succefully " })
+            }
         }
-        else {
-            res.json({ message: "User Signin Succefully " })
+        else{
+            res.json({error:"User Email is Invalid"})
         }
+
+
 
     }
     catch (err) {
