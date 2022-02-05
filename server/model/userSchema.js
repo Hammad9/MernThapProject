@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs');
+const jwt=require('jsonwebtoken')
 
 const userSchema = mongoose.Schema({
     name: {
@@ -27,7 +28,15 @@ const userSchema = mongoose.Schema({
     cpassword: {
         type: String,
         required: true,
-    }
+    },
+    tokens: [
+        {
+            token:{
+                type:String,
+                required:true,
+            }
+        }
+    ]
 })
 
 
@@ -44,6 +53,25 @@ userSchema.pre('save', async function (next) {
     }
     next();
 });
+
+// Here We Generating tokens
+userSchema.methods.generateAuthToken = async function (){
+    try{
+        // Here we define the token using jwt.sign
+        let token=jwt.sign({_id:this._id},process.env.SECRET_KEY);
+        // Yeah this.token schema walay ko pakray ga Phir schema walay ko concate karayga
+        // firt perameter token is userSchema wala then second is above secretKeyWala
+        this.tokens=this.tokens.concat({token:token});
+        await this.save();
+        return token;
+        
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+
+
 // isko end par lay jae gay kiyu kay hashing nae ho rahe
 const User = mongoose.model('USER', userSchema);
 
