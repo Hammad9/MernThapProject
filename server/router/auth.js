@@ -12,7 +12,12 @@ const User = require('../model/userSchema');
 const router = express.Router();
 
 router.get('/', (req, res) => {
+    // res.cookie("Test","Thapa");
     res.send("This is Router Home Page")
+})
+
+router.get('/contact',(req,res)=>{
+    res.send("This is Contact Page")
 })
 
 // Below Using Promises
@@ -114,6 +119,12 @@ router.post('/signin', async (req, res) => {
            
             const token=await userlogin.generateAuthToken();
             console.log(token)   //for print token which generate
+
+            // Here Store JWT token into cookies
+            res.cookie("jwtoken",token,{
+                expires:new Date(Date.now()+258900000),
+                httpOnly:true,
+            })
             // Here Check the password
             if (!isMatch) {
                 res.json({ error: "User Credientials" })
